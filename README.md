@@ -30,7 +30,7 @@ myRunner(lowercaseText('Hello World !'))
   .then(console.log) // HELLO WORLD !
 ```
 
-`cofigure` runners return a `Promise` which will get resolved with the generator return value, or rejected with the threw `Error`.
+`cofigure` runners return a `Promise` which will get resolved with the generator return value, or rejected with the uncaught threw `Error`.
 
 > Note : under the hood, processors are plain objects.
 > ```js
