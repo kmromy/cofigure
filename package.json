@@ -1,15 +1,17 @@
 {
   "name": "cofigure",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Your own generator-based flow-control",
-  "main": "index.js",
+  "main": "lib/index.js",
   "babel": {
     "presets": [
       "es2015"
     ]
   },
   "scripts": {
-    "test": "mocha --compilers js:babel-register,js:babel-polyfill"
+    "test": "mocha --compilers js:babel-register,js:babel-polyfill",
+    "prepublish": "npm run compile",
+    "compile": "babel --presets=es2015 -d lib/ src/"
   },
   "keywords": [
     "generator",
@@ -18,6 +20,7 @@
   "author": "yachaka <yachaka@gmail.com>",
   "license": "ISC",
   "devDependencies": {
+    "babel-cli": "^6.10.1",
     "babel-polyfill": "^6.9.1",
     "babel-preset-es2015": "^6.9.0",
     "babel-register": "^6.9.0",
