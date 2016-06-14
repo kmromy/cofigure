@@ -26,7 +26,7 @@ const myRunner = cofigure([
   stringToUpperProcessor,
 ])
 
-myRunner('Hello World !')
+myRunner(lowercaseText('Hello World !'))
   .then(console.log) // HELLO WORLD !
 ```
 
