@@ -3,13 +3,13 @@
   "version": "0.1.1",
   "description": "Your own generator-based flow-control",
   "main": "lib/index.js",
-  "pre-commit": "lint",
   "scripts": {
     "test": "mocha --compilers js:babel-register,js:babel-polyfill",
-    "prepublish": "npm run compile",
-    "compile": "babel src --out-dir lib",
+    "prepublish": "npm run lint && npm run compile",
+    "compile": "npm run lint && babel src --out-dir lib",
     "lint": "eslint src test"
   },
+  "pre-commit": "lint",
   "keywords": [
     "generator",
     "flow-control"
