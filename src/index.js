@@ -1,52 +1,52 @@
 
-export const makeProcessor = (identify, processFn) => ({
-	identify,
-	process: processFn,
+export const makeProcessor = (identify, exec) => ({
+  identify,
+  exec,
 })
 
-export default (processors) => function run(gen) {
+export default processors => {
 
-	return new Promise((resolve, reject) => {
+  const run = gen => new Promise((resolve, reject) => {
 
-		next({value: undefined})
+    const next = ({ value } = {}) => {
+      let nextPayload
 
-		function process(nextPayload) {
-			let found = false
+      try {
+        nextPayload = gen.next(value)
+      } catch (e) {
+        reject(e)
+      }
+      exec(nextPayload)
+    }
 
-			processors.forEach((processor) => {
-				if (processor.identify(nextPayload.value)) {
-					found = true
-					return processor.process(nextPayload.value, (value) => next({done: nextPayload.done, value}), error, run)
-				}
-			})
+    const error = err => {
+      let nextPayload
 
-			if (!found)
-				reject(new Error('No processor found for entity'))
-		}
+      try {
+        nextPayload = gen.throw(err)
+      } catch (e) {
+        reject(e)
+      }
 
-		function error(err) {
-			let nextPayload;
-			try {
-				nextPayload = gen.throw(err)
-			} catch(e) {
-				reject(e)
-			}
-			process(nextPayload)
-		}
+      exec(nextPayload)
+    }
 
-		function next(injectedPayload) {
-			let nextPayload;
+    const exec = (payload) => {
+      const processor = processors.find(p => p.identify(payload.value))
 
-			try {
-				nextPayload = gen.next(injectedPayload.value)
-			} catch(e) {
-				return reject(e)
-			}
+      if (processor) {
+        processor.exec(
+          payload.value,
+          value => next({ value, done: payload.done }),
+          error,
+          run
+        )
+      } else {
+        reject(new Error('No Processor found for entity'))
+      }
+    }
 
-			if (nextPayload.done)
-				return resolve(nextPayload.value)
-			process(nextPayload)
-		}
-	})
+    next()
+  })
 
 }
