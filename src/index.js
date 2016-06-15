@@ -48,5 +48,6 @@ export default (...processors) => {
 
     next()
   })
-
+  
+  return run
 }
