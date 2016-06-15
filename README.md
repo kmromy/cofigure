@@ -22,9 +22,7 @@ function* lowercaseText(text) {
   return yield text
 }
 
-const myRunner = cofigure([
-  stringToUpperProcessor,
-])
+const myRunner = cofigure(stringToUpperProcessor)
 
 myRunner(lowercaseText('Hello World !'))
   .then(console.log) // HELLO WORLD !

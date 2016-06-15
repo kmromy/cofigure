@@ -4,7 +4,7 @@ export const makeProcessor = (identify, exec) => ({
   exec,
 })
 
-export default processors => {
+export default (...processors) => {
 
   const run = gen => new Promise((resolve, reject) => {
 
