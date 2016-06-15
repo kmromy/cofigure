@@ -1,4 +1,4 @@
-# <img src="https://cdn.rawgit.com/js-and-chill/cofigure/master/cofigure.svg" alt="cofigure" height=48/>
+# <img src="./cofigure.png?raw=true" alt="cofigure" height=48/>
 Your own generator based flow-control
 
 Supply `processors` which will get used to process yielded values.  
