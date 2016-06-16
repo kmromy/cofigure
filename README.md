@@ -6,7 +6,7 @@ Processors consist of two things : an `identify` function, and a `process` funct
 
 For each processor, the identify function will be used to check if the yielded value should be processed by the process function.
 ```js
-import { default as cofigure, makeProcessor } from 'cofigure'
+import cofigure, { makeProcessor } from 'cofigure'
 
 const stringToUpperProcessor = makeProcessor(
   (value) => typeof value === 'string',
@@ -22,9 +22,7 @@ function* lowercaseText(text) {
   return yield text
 }
 
-const myRunner = cofigure([
-  stringToUpperProcessor,
-])
+const myRunner = cofigure(stringToUpperProcessor)
 
 myRunner(lowercaseText('Hello World !'))
   .then(console.log) // HELLO WORLD !

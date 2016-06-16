@@ -1,44 +1,45 @@
 
-import { default as cofigure, makeProcessor } from '../'
+import cofigure, { makeProcessor } from '../'
 import { assert } from 'chai'
 
 describe('cofigure', () => {
-	it('should resolve the promise with the upper case text', (done) => {
-		const stringToUpperProcessor = makeProcessor(
-			(value) => typeof value == 'string',
-			(value, next) => {
-				next(value.toUpperCase())
-			}
-		)
 
-		function* lowercaseText(text) {
-			return yield text
-		}
+  it('should resolve the promise with the upper case text', (done) => {
+    const stringToUpperProcessor = makeProcessor(
+      (value) => typeof value === 'string',
+      (value, next) => {
+        next(value.toUpperCase())
+      }
+    )
 
-		cofigure([stringToUpperProcessor])(lowercaseText('Hello World !'))
-			.then((text) => {
-				assert.equal('HELLO WORLD !', text)
-				done()
-			})
-	})
+    function* lowercaseText (text) {
+      return yield text
+    }
 
-	it('should throw an error and get handled', (done) => {
-		const processor = makeProcessor(
-			(value) => true,
-			(value, next, error) => {
-				error(new Error())
-			}
-		)
+    cofigure([stringToUpperProcessor])(lowercaseText('Hello World !'))
+      .then(text => {
+        assert.equal('HELLO WORLD !', text)
+        done()
+      })
+  })
 
-		function* lowercaseText(text) {
-			return yield text
-		}
+  it('should throw an error and get handled', (done) => {
+    const processor = makeProcessor(
+      () => true,
+      (value, next, error) => {
+        error(new Error())
+      }
+    )
 
-		cofigure([processor])(lowercaseText('Hello World !'))
-			.then((text) => {
-				done(new Error('Inside then callback, we shouldn\'t be'))
-			})
-			.catch(() => done())
-	})
+    function* lowercaseText (text) {
+      return yield text
+    }
+
+    cofigure([processor])(lowercaseText('Hello World !'))
+      .then(() => {
+        done(new Error('Inside then callback, we shouldn\'t be'))
+      })
+      .catch(() => done())
+  })
 
 })
