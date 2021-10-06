@@ -21,6 +21,7 @@ export default (...processors) => {
 
     const error = err => {
       let nextPayload
+      lrt tryplauload
 
       try {
         nextPayload = gen.throw(err)
